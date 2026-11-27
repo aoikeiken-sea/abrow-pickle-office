@@ -160,6 +160,91 @@
   .st-상담중,.st-회의중{background:#7FA39B}
   .me-badge{font-size:9px;color:var(--coffee);background:#F3E6D3;border-radius:6px;padding:1px 4px;margin-left:5px;vertical-align:middle;letter-spacing:0}
 
+  /* ===== 3D 클레이 그림 맵 ===== */
+  .view-bar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:2px 0 11px}
+  .view-bar .spacer{margin-left:auto}
+  .seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:#F1E5D3;border:1px solid var(--line)}
+  .seg button{
+    border:0;background:transparent;font-family:inherit;font-size:12px;color:var(--muted);
+    padding:6px 11px;border-radius:999px;cursor:pointer;transition:.16s;white-space:nowrap;
+  }
+  .seg button.active{background:var(--milk);color:var(--espresso);font-weight:700;box-shadow:0 2px 7px rgba(74,53,37,.13)}
+  .tog{
+    display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--milk);
+    border-radius:999px;font-family:inherit;font-size:12px;color:var(--muted);padding:7px 12px;
+    cursor:pointer;transition:.16s;white-space:nowrap;
+  }
+  .tog.on{background:linear-gradient(140deg,#F7E8C8,#FFF8E9);border-color:var(--latte-soft);color:var(--espresso);font-weight:700}
+  .view-bar .pill{font-size:11.5px;padding:6px 11px;color:var(--coffee);background:#FFFCF6}
+  .view-bar .pill b{color:var(--espresso)}
+
+  .clay-hero{
+    background:linear-gradient(135deg,#FFFBF3 0%,#F7EAD6 100%);
+    border:1px solid var(--line);border-radius:18px;padding:11px 14px 12px;margin:0 0 11px;
+  }
+  .clay-hero .kicker{
+    display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--coffee);
+    background:var(--milk);border:1px solid var(--line);border-radius:999px;padding:2px 9px;
+  }
+  .clay-hero h3{font-family:'Jua',sans-serif;font-weight:400;font-size:17.5px;margin:8px 0 1px;color:var(--espresso);letter-spacing:-.2px}
+  .clay-hero p{margin:0;font-size:11.5px;color:var(--muted)}
+
+  #officeCard .clay-view{display:none}
+  #officeCard .clay-hero{display:none}
+  #officeCard.view-clay .clay-view{display:block}
+  #officeCard.view-clay .basic-view{display:none}
+  #officeCard.view-clay .clay-hero{display:block}
+
+  .clay-stage{
+    position:relative;container-type:inline-size;border-radius:22px;overflow:hidden;
+    background:#E6D2B7;box-shadow:inset 0 0 0 1px rgba(74,53,37,.07), 0 8px 22px rgba(74,53,37,.12);
+  }
+  .clay-stage .map-bg{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none;pointer-events:none}
+  .clay-layer{position:absolute;inset:0}
+  .clay-stage::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 54px rgba(74,53,37,.18)}
+
+  .cz{
+    position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);
+    display:inline-flex;align-items:center;gap:5px;z-index:2;cursor:pointer;
+    background:rgba(255,253,249,.94);border:1px solid rgba(233,217,191,.95);border-radius:999px;
+    padding:3px 9px;font-family:inherit;font-size:max(9px,1.95cqw);color:var(--espresso);font-weight:700;
+    line-height:1.25;white-space:nowrap;box-shadow:0 4px 11px rgba(74,53,37,.16);transition:transform .16s,background .16s;
+  }
+  .cz:hover{transform:translate(-50%,-50%) scale(1.06);background:#fff}
+  .cz .cnt{background:#EFDFC7;color:var(--coffee);border-radius:999px;padding:0 5px;font-size:.85em;font-weight:700}
+
+  .cc{
+    position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-100%);
+    display:flex;flex-direction:column;align-items:center;gap:2px;z-index:3;
+    background:none;border:0;padding:0;font-family:inherit;cursor:pointer;
+  }
+  .cc .fig{position:relative;display:block;width:11cqw;min-width:36px;max-width:68px;filter:drop-shadow(0 7px 9px rgba(74,53,37,.32));transition:transform .16s}
+  .cc:hover .fig{transform:translateY(-2%) scale(1.05)}
+  .cc .fig img{display:block;width:100%;height:auto;pointer-events:none}
+  .cc .fig .emoji-fig{
+    display:grid;place-items:center;width:100%;aspect-ratio:1;border-radius:50%;font-size:2.1em;
+    background:radial-gradient(circle at 35% 28%,#FFFDF8,#EADAC2);border:2px solid #fff;box-shadow:0 0 0 1.5px #E6D3B8;
+  }
+  .cc .fig .onp{
+    position:absolute;right:-1%;top:4%;width:3.4cqw;height:3.4cqw;min-width:9px;min-height:9px;max-width:13px;max-height:13px;
+    border-radius:50%;background:#49C46B;border:1.5px solid #fff;box-shadow:0 0 0 2px rgba(73,196,107,.22);
+  }
+  .cc .tg{
+    display:inline-flex;align-items:center;gap:3px;background:rgba(255,253,249,.96);border:1px solid #EADCC9;
+    border-radius:999px;padding:1px 7px;box-shadow:0 3px 8px rgba(74,53,37,.17);
+    font-size:max(8.5px,1.85cqw);color:var(--espresso);font-weight:700;white-space:nowrap;
+  }
+  .cc .tg em{font-style:normal;font-weight:400;color:var(--muted);font-size:.92em}
+  .cc .tg .meb{font-size:.82em;font-weight:700;color:var(--coffee);background:#F3E6D3;border-radius:5px;padding:0 3px}
+  .cc.away .fig{filter:drop-shadow(0 6px 8px rgba(74,53,37,.2)) grayscale(.28) opacity(.82)}
+  .cc.away .fig .onp{background:#C3B2A0;box-shadow:none}
+
+  body.anim .cc .fig{animation:clayBob 3.8s ease-in-out infinite;animation-delay:var(--d,0s)}
+  @keyframes clayBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6%)}}
+  body.anim .cc .fig .onp{animation:clayDot 2.8s ease-in-out infinite}
+  @keyframes clayDot{0%,100%{box-shadow:0 0 0 2px rgba(73,196,107,.2)}50%{box-shadow:0 0 0 5px rgba(73,196,107,.08)}}
+  @media (prefers-reduced-motion:reduce){body.anim .cc .fig,body.anim .cc .fig .onp{animation:none}}
+
   /* chat */
   #chatCard{display:flex;flex-direction:column;min-height:520px}
   .chat-box{display:flex;flex-direction:column;height:100%;min-height:0}
@@ -335,15 +420,41 @@
   <main class="grid">
     <div class="col">
       <!-- OFFICE MAP -->
-      <section class="card active" data-view="office">
+      <section class="card active view-clay" data-view="office" id="officeCard">
         <div class="card-head">
-          <h2>☕ 카페 라운지 맵</h2>
+          <h2>🧸 카페 라운지 맵</h2>
           <span class="sub">피클을 눌러 자리·상태 바꾸기</span>
           <span class="spacer"></span>
           <button class="btn" id="inviteBtn">＋ 피클 초대</button>
         </div>
         <div class="card-body">
-          <div class="map" id="map"></div>
+          <div class="view-bar">
+            <div class="seg" id="viewSeg">
+              <button data-mode="basic">🗂️ 기본</button>
+              <button data-mode="clay" class="active">🧸 클레이</button>
+            </div>
+            <button class="tog on" id="motionBtn">✨ 움직임 ON</button>
+            <span class="spacer"></span>
+            <span class="pill"><span class="dot on"></span><b id="zoneLive">0</b>개 구역 가동</span>
+            <span class="pill">👥 ON <b id="onCount">0</b>명</span>
+          </div>
+
+          <div class="clay-hero">
+            <span class="kicker">🧸 A.BROW 비서실</span>
+            <h3>세아 님, 피클 <b id="heroCount">4</b>명이 라운지에 있어요</h3>
+            <p>방마다 피클이 일하고 있어요. 캐릭터나 구역을 눌러 보세요.</p>
+          </div>
+
+          <div class="clay-view">
+            <div class="clay-stage">
+              <img class="map-bg" src="assets/cafe-lounge-map.png?v=1" alt="에이브로우 카페 라운지 3D 클레이 미니어처 맵" />
+              <div class="clay-layer" id="clayLayer"></div>
+            </div>
+          </div>
+
+          <div class="basic-view">
+            <div class="map" id="map"></div>
+          </div>
         </div>
       </section>
 
@@ -405,7 +516,7 @@
   </main>
 
   <p class="notice">
-    ☕ 아늑한 카페 라운지에서 쉬어 가는 비서실 · 공개 페이지예요 🔒<br />
+    🧸 3D 클레이 라운지에서 쉬어 가는 비서실 · 공개 페이지예요 🔒<br />
     전화번호·주소·비밀번호 같은 민감한 정보는 적지 마세요<br />
     A.BROW × PICKLE · made for @sea_0422
   </p>
@@ -438,6 +549,16 @@ const ZONES = [
   { id: 'lounge',    name: '소파 라운지',     emoji: '🛋️', hint: '휴게·수다' },
   { id: 'desk',      name: '테라스 미팅석',   emoji: '🌿', hint: '회의·일정' }
 ];
+/* 클레이 그림 맵 좌표 (% · 그림 기준)
+   label = 구역 이름표 위치, slots = 캐릭터 발 위치(여러 명이면 순서대로) */
+const CLAY_POS = {
+  counter:   { label: [23, 26], slots: [[43, 52], [51, 59], [36, 46], [47, 65]] },
+  treatment: { label: [79, 28], slots: [[58, 49], [66, 56], [52, 42], [63, 64]] },
+  lounge:    { label: [76, 84], slots: [[57, 70], [65, 77], [48, 75], [60, 84]] },
+  desk:      { label: [19, 66], slots: [[34, 63], [25, 58], [31, 72], [41, 58]] }
+};
+const CLAY_ART = { sea: 'clay-sea', peach: 'clay-peach', abrow: 'clay-abrow', newbie: 'clay-newbie' };
+
 const STATUSES = ['대기 중', '상담 중', '작업 중', '시술 중', '휴게', '외출', '자리 비움'];
 const EMOJIS = ['☕', '🍪', '🥐', '🍰', '🍵', '🌿', '🕯️', '🧸', '🍑', '✨'];
 
@@ -684,6 +805,63 @@ function renderMap() {
       openPresenceModal(state.me, zone.dataset.zone);
     });
   });
+
+  renderClay();
+}
+
+/* ---------- 렌더: 클레이 그림 맵 오버레이 ---------- */
+function clayArtHtml(m) {
+  const art = CLAY_ART[m.id];
+  if (art) return `<img src="assets/${art}.png?v=1" alt="${esc(m.name)}" loading="lazy" draggable="false" />`;
+  return `<span class="emoji-fig">${m.emoji || '🧸'}</span>`;
+}
+
+function renderClay() {
+  const layer = $('#clayLayer');
+  if (!layer) return;
+  const members = memberList();
+  const html = [];
+
+  // 구역 이름표
+  ZONES.forEach((z) => {
+    const p = CLAY_POS[z.id];
+    if (!p) return;
+    const n = members.filter((m) => m.zone === z.id).length;
+    html.push(`
+      <button class="cz" style="--x:${p.label[0]}%;--y:${p.label[1]}%" data-zone="${z.id}" title="${esc(z.name)} · 내 자리로 이동">
+        <span>${z.emoji} ${esc(z.name)}</span>${n ? `<span class="cnt">${n}</span>` : ''}
+      </button>`);
+  });
+
+  // 캐릭터
+  ZONES.forEach((z) => {
+    const p = CLAY_POS[z.id];
+    if (!p) return;
+    members.filter((m) => m.zone === z.id).forEach((m, i) => {
+      const slot = p.slots[Math.min(i, p.slots.length - 1)];
+      const away = m.status === '자리 비움' || m.status === '외출';
+      html.push(`
+        <button class="cc ${away ? 'away' : ''}" style="--x:${slot[0]}%;--y:${slot[1]}%;--d:${(0.25 + i * 0.5).toFixed(2)}s" data-mid="${m.id}" title="${esc(m.name)} · ${esc(m.status || '대기 중')}">
+          <span class="fig">${clayArtHtml(m)}<i class="onp"></i></span>
+          <span class="tg">${esc(m.name)}${m.id === state.me ? '<span class="meb">나</span>' : ''}<em>${esc(m.status || '대기 중')}</em></span>
+        </button>`);
+    });
+  });
+  layer.innerHTML = html.join('');
+
+  layer.querySelectorAll('.cc').forEach((el) => {
+    el.addEventListener('click', (e) => { e.stopPropagation(); openPresenceModal(el.dataset.mid); });
+  });
+  layer.querySelectorAll('.cz').forEach((el) => {
+    el.addEventListener('click', () => openPresenceModal(state.me, el.dataset.zone));
+  });
+
+  const on = members.filter((m) => m.status !== '자리 비움' && m.status !== '외출').length;
+  const liveZones = ZONES.filter((z) => members.some((m) => m.zone === z.id)).length;
+  const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setTxt('onCount', on);
+  setTxt('zoneLive', liveZones);
+  setTxt('heroCount', members.length);
 }
 
 /* ---------- 렌더: 채팅 ---------- */
@@ -950,6 +1128,39 @@ $('#noteAdd').addEventListener('click', () => {
 $('#noteInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#noteAdd').click(); });
 
 $('#inviteBtn').addEventListener('click', openInviteModal);
+
+/* ---------- 보기 전환 (기본 / 클레이) · 움직임 ---------- */
+const VIEW_KEY = CONFIG.storeKey + '_view';
+const MOTION_KEY = CONFIG.storeKey + '_motion';
+let clayView = localStorage.getItem(VIEW_KEY) !== 'basic';
+let motionOn = localStorage.getItem(MOTION_KEY) !== '0';
+
+function syncOfficeView() {
+  const card = $('#officeCard');
+  if (!card) return;
+  card.classList.toggle('view-clay', clayView);
+  card.classList.toggle('view-basic', !clayView);
+  $$('#viewSeg button').forEach((b) => b.classList.toggle('active', (b.dataset.mode === 'clay') === clayView));
+  const mb = $('#motionBtn');
+  if (mb) {
+    mb.classList.toggle('on', motionOn);
+    mb.setAttribute('aria-pressed', motionOn ? 'true' : 'false');
+    mb.textContent = motionOn ? '✨ 움직임 ON' : '💤 움직임 OFF';
+  }
+  document.body.classList.toggle('anim', motionOn);
+}
+
+$$('#viewSeg button').forEach((b) => b.addEventListener('click', () => {
+  clayView = b.dataset.mode === 'clay';
+  localStorage.setItem(VIEW_KEY, clayView ? 'clay' : 'basic');
+  syncOfficeView();
+}));
+$('#motionBtn').addEventListener('click', () => {
+  motionOn = !motionOn;
+  localStorage.setItem(MOTION_KEY, motionOn ? '1' : '0');
+  syncOfficeView();
+});
+syncOfficeView();
 
 /* ---------- 탭 ---------- */
 $$('#tabs button').forEach((b) => {
