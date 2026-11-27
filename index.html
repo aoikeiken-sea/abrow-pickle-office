@@ -218,11 +218,15 @@
     display:flex;flex-direction:column;align-items:center;gap:2px;z-index:3;
     background:none;border:0;padding:0;font-family:inherit;cursor:pointer;
   }
-  .cc .fig{position:relative;display:block;width:11cqw;min-width:36px;max-width:68px;filter:drop-shadow(0 7px 9px rgba(74,53,37,.32));transition:transform .16s}
+  .cc .fig{
+    position:relative;display:flex;align-items:flex-end;justify-content:center;
+    height:15.5cqw;min-height:50px;max-height:90px;width:auto;
+    filter:drop-shadow(0 7px 9px rgba(74,53,37,.32));transition:transform .16s;
+  }
   .cc:hover .fig{transform:translateY(-2%) scale(1.05)}
-  .cc .fig img{display:block;width:100%;height:auto;pointer-events:none}
+  .cc .fig img{display:block;height:100%;width:auto;pointer-events:none}
   .cc .fig .emoji-fig{
-    display:grid;place-items:center;width:100%;aspect-ratio:1;border-radius:50%;font-size:2.1em;
+    display:grid;place-items:center;height:100%;aspect-ratio:1;border-radius:50%;font-size:2.1em;
     background:radial-gradient(circle at 35% 28%,#FFFDF8,#EADAC2);border:2px solid #fff;box-shadow:0 0 0 1.5px #E6D3B8;
   }
   .cc .fig .onp{
@@ -392,6 +396,9 @@
     .zone{min-height:98px}
     .card-head h2{font-size:15.5px}
     .messages{height:44vh}
+    .clay-stage{border-radius:18px}
+    .cc .fig{height:17cqw;min-height:44px;max-height:64px}
+    .clay-hero h3{font-size:16px}
   }
 </style>
 </head>
@@ -552,25 +559,25 @@ const ZONES = [
 /* 클레이 그림 맵 좌표 (% · 그림 기준)
    label = 구역 이름표 위치, slots = 캐릭터 발 위치(여러 명이면 순서대로) */
 const CLAY_POS = {
-  counter:   { label: [23, 26], slots: [[43, 52], [51, 59], [36, 46], [47, 65]] },
-  treatment: { label: [79, 28], slots: [[58, 49], [66, 56], [52, 42], [63, 64]] },
-  lounge:    { label: [76, 84], slots: [[57, 70], [65, 77], [48, 75], [60, 84]] },
-  desk:      { label: [19, 66], slots: [[34, 63], [25, 58], [31, 72], [41, 58]] }
+  counter:   { label: [24, 22], slots: [[40, 53], [47, 60], [33, 47], [44, 67]] },
+  treatment: { label: [78, 23], slots: [[62, 49], [68, 56], [55, 43], [64, 63]] },
+  lounge:    { label: [79, 84], slots: [[57, 73], [64, 80], [49, 67], [70, 75]] },
+  desk:      { label: [16, 56], slots: [[36, 70], [42, 63], [24, 74], [31, 80]] }
 };
-const CLAY_ART = { sea: 'clay-sea', peach: 'clay-peach', abrow: 'clay-abrow', newbie: 'clay-newbie' };
+const CLAY_ART = { sea: 'clay-sea', peach: 'clay-peach', abrow: 'clay-abrow' };
+const CLAY_GUEST = 'clay-newbie';   // 초대된 새 피클의 기본 클레이 캐릭터
 
 const STATUSES = ['대기 중', '상담 중', '작업 중', '시술 중', '휴게', '외출', '자리 비움'];
 const EMOJIS = ['☕', '🍪', '🥐', '🍰', '🍵', '🌿', '🕯️', '🧸', '🍑', '✨'];
 
 const SEED_MEMBERS = [
-  { id: 'sea',   name: '세아',       handle: '@세아',      emoji: '👑', role: '대표',            zone: 'desk',      status: '상담 중' },
-  { id: 'peach', name: '피치',       handle: '@피치',      emoji: '🍑', role: '피클 · 총괄 비서', zone: 'desk',      status: '대기 중' },
-  { id: 'abrow', name: '에이브로우', handle: '@에이브로우', emoji: '✏️', role: '피클 · 샵 비서',   zone: 'treatment', status: '작업 중' },
-  { id: 'newbie',name: '새 피클',    handle: '@새피클',    emoji: '✨', role: '합류 대기',        zone: 'lounge',    status: '자리 비움' }
+  { id: 'sea',   name: '세아', handle: '@세아', emoji: '👑', role: '대표',             zone: 'desk',      status: '상담 중' },
+  { id: 'peach', name: '피치', handle: '@피치', emoji: '🍑', role: '피클 · 총괄 비서', zone: 'desk',      status: '대기 중' },
+  { id: 'abrow', name: '똥치', handle: '@똥치', emoji: '✏️', role: '피클 · 샵 비서',   zone: 'treatment', status: '작업 중' }
 ];
 
 const SEED_OPS = [
-  { id: 'seed-1', t: 'chat', m: { id: 'm-seed-1', who: 'peach', text: '비서실 오픈했어요 🌸 @에이브로우 오늘 시술 스케줄 보드에 올려둘게요.', ts: 0 } },
+  { id: 'seed-1', t: 'chat', m: { id: 'm-seed-1', who: 'peach', text: '비서실 오픈했어요 🌸 @똥치 오늘 시술 스케줄 보드에 올려둘게요.', ts: 0 } },
   { id: 'seed-2', t: 'chat', m: { id: 'm-seed-2', who: 'abrow', text: '확인! 오후 2시 리터치, 4시 신규 상담 잡혀 있어요. @세아 님 컨펌만 받으면 돼요.', ts: 0 } },
   { id: 'seed-3', t: 'todo.add', todo: { id: 't-seed-1', text: '오후 4시 신규 상담 고객 사전 문진 확인', by: 'sea', assignee: 'abrow', done: false, ts: 0 } },
   { id: 'seed-4', t: 'todo.add', todo: { id: 't-seed-2', text: '12월 예약 오픈 공지 문구 초안', by: 'sea', assignee: 'peach', done: false, ts: 0 } },
@@ -761,6 +768,23 @@ function seed() {
   SEED_MEMBERS.forEach((m) => { if (!state.members[m.id]) { state.members[m.id] = { ...m }; state.order.push(m.id); } });
 }
 
+/* 기존 캐시 정리: 에이브로우 → 똥치 이름 변경, 기본 멤버에서 '새 피클' 제거 */
+function migrateMembers() {
+  const a = state.members.abrow;
+  if (a) { a.name = '똥치'; a.handle = '@똥치'; }
+  // 새 피클(newbie)은 기본 멤버에서 빠졌어요 — 필요하면 ＋ 피클 초대로 추가
+  Object.keys(state.members).forEach((id) => {
+    const m = state.members[id];
+    if (!m) return;
+    if (id === 'newbie' || (m.name === '새 피클' && m.role === '합류 대기')) delete state.members[id];
+  });
+  state.order = state.order.filter((id) => !!state.members[id]);
+  Object.keys(state.members).forEach((id) => { if (!state.order.includes(id)) state.order.push(id); });
+  if (!state.members[state.me]) state.me = state.order[0] || 'sea';
+  localStorage.setItem(CONFIG.storeKey + '_me', state.me);
+  save();
+}
+
 /* ---------- 렌더: 멤버 ---------- */
 function memberList() { return state.order.map((id) => state.members[id]).filter(Boolean); }
 function memberByHandle(h) { return memberList().find((m) => m.handle === h); }
@@ -811,9 +835,8 @@ function renderMap() {
 
 /* ---------- 렌더: 클레이 그림 맵 오버레이 ---------- */
 function clayArtHtml(m) {
-  const art = CLAY_ART[m.id];
-  if (art) return `<img src="assets/${art}.png?v=1" alt="${esc(m.name)}" loading="lazy" draggable="false" />`;
-  return `<span class="emoji-fig">${m.emoji || '🧸'}</span>`;
+  const art = CLAY_ART[m.id] || CLAY_GUEST;
+  return `<img src="assets/${art}.png?v=1" alt="${esc(m.name)}" loading="lazy" draggable="false" />`;
 }
 
 function renderClay() {
@@ -1176,6 +1199,7 @@ $$('#tabs button').forEach((b) => {
 async function boot() {
   const hadLocal = restore();
   seed();
+  migrateMembers();
 
   // 1) 서버 이벤트 로그 불러오기
   try {
