@@ -406,11 +406,11 @@
 
 /* ---------- 설정 ---------- */
 const CONFIG = {
-  // 'ntfy'  : 무인증 공개 pub/sub (지금 바로 동작) — 실시간 SSE + 12시간 보관
-  // 'firebase': Firebase Realtime Database REST (CONFIG.firebaseUrl 채우면 자동 전환)
-  backend: 'ntfy',
+  // 'firebase': Firebase Realtime Database (영구 보관 + 실시간 스트리밍)
+  // 'ntfy'    : 무인증 공개 pub/sub (백업용 · 12시간 보관)
+  backend: 'firebase',
+  firebaseUrl: 'https://abrow-pickle-office-default-rtdb.asia-southeast1.firebasedatabase.app',
   ntfyTopic: 'abrow-office-a7k2p9x',
-  firebaseUrl: '',       // 예: https://abrow-office-default-rtdb.asia-southeast1.firebasedatabase.app
   storeKey: 'abrow_office_v1'
 };
 
@@ -487,9 +487,11 @@ const backend = {
 
   async loadBacklog() {
     if (CONFIG.backend === 'firebase' && CONFIG.firebaseUrl) {
-      const res = await fetch(CONFIG.firebaseUrl + '/ops.json');
-      const data = await res.json() || {};
-      return Object.values(data).filter(Boolean);
+      const res = await fetch(CONFIG.firebaseUrl + '/ops.json', { cache: 'no-store' });
+      const data = (await res.json()) || {};
+      const out = Object.values(data).filter(Boolean);
+      out.sort((a, b) => (a.ts || 0) - (b.ts || 0));
+      return out;
     }
     const res = await fetch('https://ntfy.sh/' + CONFIG.ntfyTopic + '/json?poll=1&since=all', { cache: 'no-store' });
     const text = await res.text();
@@ -503,15 +505,19 @@ const backend = {
 
   listen(onOp) {
     if (CONFIG.backend === 'firebase' && CONFIG.firebaseUrl) {
-      // RTDB REST 스트리밍
-      const es = new EventSource(CONFIG.firebaseUrl + '/ops.json');
-      es.addEventListener('put', (e) => {
+      // RTDB REST 스트리밍 (put = 전체 스냅숏, patch = 부분 갱신)
+      const handle = (e) => {
         try {
           const d = JSON.parse(e.data);
-          const v = d.data;
-          if (v && typeof v === 'object') Object.values(v).forEach((op) => op && onOp(op));
+          const v = d && d.data;
+          if (v && typeof v === 'object') {
+            Object.values(v).forEach((op) => { if (op && op.id) onOp(op); });
+          }
         } catch (err) {}
-      });
+      };
+      const es = new EventSource(CONFIG.firebaseUrl + '/ops.json');
+      es.addEventListener('put', handle);
+      es.addEventListener('patch', handle);
       es.onopen = () => setConnected(true);
       es.onerror = () => setConnected(false);
       return es;
