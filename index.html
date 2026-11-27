@@ -169,7 +169,7 @@
   @keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   .msg .bubble{
     background:#FFF6FA;border:1px solid var(--line);border-radius:14px;padding:8px 11px;
-    font-size:13.5px;max-width:100%;word-break:break-word;white-space:pre-wrap;
+    font-size:13.5px;max-width:100%;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap;
   }
   .msg.mine{flex-direction:row-reverse}
   .msg.mine .bubble{background:linear-gradient(140deg,#FDE8F0,#FBD9E6);border-color:var(--pink-300)}
@@ -230,7 +230,7 @@
     cursor:pointer;display:grid;place-items:center;font-size:12px;color:transparent;margin-top:1px;transition:.15s;
   }
   .todo.done .check{background:var(--rose);border-color:var(--rose);color:#fff}
-  .todo .txt{flex:1;font-size:13.5px;word-break:break-word}
+  .todo .txt{flex:1;font-size:13.5px;word-break:keep-all;overflow-wrap:anywhere}
   .todo.done .txt{text-decoration:line-through;text-decoration-color:var(--rose)}
   .todo .by{font-size:10.5px;color:var(--muted);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
   .tag{font-size:10px;background:var(--pink-100);color:var(--rose-deep);border-radius:6px;padding:1px 6px}
@@ -239,7 +239,7 @@
   .notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px;margin-top:2px}
   .note{
     position:relative;background:#FFF3F8;border:1px solid var(--line);border-radius:13px;padding:11px 26px 9px 12px;
-    font-size:12.5px;min-height:82px;white-space:pre-wrap;word-break:break-word;box-shadow:var(--shadow-sm);
+    font-size:12.5px;min-height:82px;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;box-shadow:var(--shadow-sm);
   }
   .note:nth-child(3n){background:#FFF7FA;transform:rotate(-.6deg)}
   .note:nth-child(3n+1){background:#FFF1F6;transform:rotate(.5deg)}
