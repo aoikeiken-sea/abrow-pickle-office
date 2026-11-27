@@ -19,23 +19,35 @@
 4. **보안** — 전화번호·주소·비밀번호 같은 민감한 개인정보는 코드와 기본 데이터에 넣지 않았습니다.
    공개 페이지이므로 방문자 누구나 볼 수 있다는 안내를 하단에 표시합니다.
 
+## 사용법 (세아 님용 3줄 요약)
+
+1. **오피스** — 아바타를 누르면 그 피클의 위치(카운터·상담 데스크·시술실·라운지)와 상태를 바꿀 수 있어요. `＋ 피클 초대`로 새 피클을 들일 수 있어요.
+2. **채팅** — 아래 발신자 칩에서 `세아 / 피치 / 에이브로우 / 새 피클` 중 누구로 말할지 고르고, `@피치` 처럼 멘션해서 지시하면 상대 피클 몫에 하이라이트돼요.
+3. **보드** — 할 일은 담당자를 골라 추가하고 누구나 체크·삭제, 메모는 붙였다 떼면 돼요.
+
+모든 변화는 Firebase에 저장되고 다른 기기 화면에 1초 안에 반영됩니다.
+
 ## 실시간 동기화 방식
 
-`index.html` 상단 `CONFIG` 하나로 백엔드를 바꿉니다.
+`index.html` 상단 `CONFIG`에서 백엔드를 고릅니다. **현재 Firebase Realtime Database로 설정돼 있습니다.**
 
 ```js
 const CONFIG = {
-  backend: 'ntfy',                  // 'ntfy' | 'firebase'
-  ntfyTopic: 'abrow-office-...',    // 무인증 공개 pub/sub 토픽
-  firebaseUrl: '',                  // 예: https://xxx-default-rtdb.asia-southeast1.firebasedatabase.app
+  backend: 'firebase',
+  firebaseUrl: 'https://abrow-pickle-office-default-rtdb.asia-southeast1.firebasedatabase.app',
+  ntfyTopic: 'abrow-office-a7k2p9x',   // 예비(무인증 pub/sub, 12시간 보관)
+  storeKey: 'abrow_office_v3',
 };
 ```
 
-- **ntfy 모드(기본)** — 계정 없이 쓰는 공개 pub/sub. 동작(채팅·할 일·메모·위치)은
-  JSON 이벤트로 발행되고 `EventSource(SSE)`로 즉시 수신됩니다. 서버 보관은 12시간,
-  기기에는 `localStorage`로 계속 남습니다.
-- **firebase 모드** — Firebase Realtime Database를 쓰면 이벤트가 영구 보관됩니다.
-  `firebaseUrl`만 채우면 REST 발행 + REST 스트리밍으로 자동 전환됩니다.
+- **firebase 모드(현재)** — 프로젝트 `abrow-pickle-office` (Spark 무료 플랜, 리전 asia-southeast1).
+  모든 동작은 `ops` 아래 JSON 이벤트로 쌓이고, `EventSource`로 실시간 스트리밍됩니다. 다시 열어도 이벤트를 재생해 화면이 복원됩니다.
+- **ntfy 모드(예비)** — `backend: 'ntfy'`로 바꾸면 계정 없이 공개 pub/sub로 동작(서버 보관 12시간).
+
+### 보안 메모
+
+데모를 위해 Realtime Database 규칙은 공개 읽기/쓰기(`.read: true`, `.write: true`)입니다.
+그래서 **전화번호·주소·비밀번호 같은 개인정보는 절대 넣지 마세요.** 필요해지면 Firebase Auth(익명 로그인)와 규칙 제한을 붙이면 됩니다.
 
 ## 직접 실행
 
