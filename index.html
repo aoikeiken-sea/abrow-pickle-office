@@ -233,10 +233,13 @@
     position:absolute;right:-1%;top:4%;width:3.4cqw;height:3.4cqw;min-width:9px;min-height:9px;max-width:13px;max-height:13px;
     border-radius:50%;background:#49C46B;border:1.5px solid #fff;box-shadow:0 0 0 2px rgba(73,196,107,.22);
   }
+  .cc .fig .onp.busy{background:#E0A03C;box-shadow:0 0 0 2px rgba(224,160,60,.24)}
+  .cc .fig .onp.meet{background:#6FA39B;box-shadow:0 0 0 2px rgba(111,163,155,.24)}
+  .cc .fig .onp.rest{background:#BFAC96;box-shadow:0 0 0 2px rgba(191,172,150,.2)}
   .cc .tg{
     display:inline-flex;align-items:center;gap:3px;background:rgba(255,253,249,.96);border:1px solid #EADCC9;
-    border-radius:999px;padding:1px 7px;box-shadow:0 3px 8px rgba(74,53,37,.17);
-    font-size:max(8.5px,1.85cqw);color:var(--espresso);font-weight:700;white-space:nowrap;
+    border-radius:999px;padding:1px 8px;box-shadow:0 3px 8px rgba(74,53,37,.17);
+    font-size:max(9px,2.05cqw);color:var(--espresso);font-weight:700;white-space:nowrap;
   }
   .cc .tg em{font-style:normal;font-weight:400;color:var(--muted);font-size:.92em}
   .cc .tg .meb{font-size:.82em;font-weight:700;color:var(--coffee);background:#F3E6D3;border-radius:5px;padding:0 3px}
@@ -454,7 +457,7 @@
 
           <div class="clay-view">
             <div class="clay-stage">
-              <img class="map-bg" src="assets/cafe-lounge-map.png?v=1" alt="에이브로우 카페 라운지 3D 클레이 미니어처 맵" />
+              <img class="map-bg" src="assets/cafe-lounge-map.png?v=1" alt="A.BROW 카페 라운지 3D 클레이 미니어처 맵" />
               <div class="clay-layer" id="clayLayer"></div>
             </div>
           </div>
@@ -559,10 +562,10 @@ const ZONES = [
 /* 클레이 그림 맵 좌표 (% · 그림 기준)
    label = 구역 이름표 위치, slots = 캐릭터 발 위치(여러 명이면 순서대로) */
 const CLAY_POS = {
-  counter:   { label: [24, 22], slots: [[40, 53], [47, 60], [33, 47], [44, 67]] },
-  treatment: { label: [78, 23], slots: [[62, 49], [68, 56], [55, 43], [64, 63]] },
-  lounge:    { label: [79, 84], slots: [[57, 73], [64, 80], [49, 67], [70, 75]] },
-  desk:      { label: [16, 56], slots: [[36, 70], [42, 63], [24, 74], [31, 80]] }
+  counter:   { label: [25, 15], slots: [[41, 54], [48, 61], [34, 48], [45, 68]] },
+  treatment: { label: [78, 21], slots: [[67, 54], [72, 60], [60, 48], [70, 66]] },
+  lounge:    { label: [80, 85], slots: [[59, 74], [66, 80], [51, 68], [71, 76]] },
+  desk:      { label: [21, 53], slots: [[33, 75], [40, 68], [26, 80], [45, 72]] }
 };
 const CLAY_ART = { sea: 'clay-sea', peach: 'clay-peach', abrow: 'clay-abrow' };
 const CLAY_GUEST = 'clay-newbie';   // 초대된 새 피클의 기본 클레이 캐릭터
@@ -839,6 +842,14 @@ function clayArtHtml(m) {
   return `<img src="assets/${art}.png?v=1" alt="${esc(m.name)}" loading="lazy" draggable="false" />`;
 }
 
+function dotClass(s) {
+  const v = String(s || '');
+  if (v === '자리 비움' || v === '외출' || v === '휴게') return 'rest';
+  if (v === '작업 중' || v === '시술 중') return 'busy';
+  if (v === '상담 중' || v === '회의 중') return 'meet';
+  return 'on';
+}
+
 function renderClay() {
   const layer = $('#clayLayer');
   if (!layer) return;
@@ -865,8 +876,8 @@ function renderClay() {
       const away = m.status === '자리 비움' || m.status === '외출';
       html.push(`
         <button class="cc ${away ? 'away' : ''}" style="--x:${slot[0]}%;--y:${slot[1]}%;--d:${(0.25 + i * 0.5).toFixed(2)}s" data-mid="${m.id}" title="${esc(m.name)} · ${esc(m.status || '대기 중')}">
-          <span class="fig">${clayArtHtml(m)}<i class="onp"></i></span>
-          <span class="tg">${esc(m.name)}${m.id === state.me ? '<span class="meb">나</span>' : ''}<em>${esc(m.status || '대기 중')}</em></span>
+          <span class="fig">${clayArtHtml(m)}<i class="onp ${dotClass(m.status)}"></i></span>
+          <span class="tg">${esc(m.name)}${m.id === state.me ? '<span class="meb">나</span>' : ''}</span>
         </button>`);
     });
   });
