@@ -286,8 +286,10 @@
     main.grid .col{display:contents}
     section.card[data-view]{display:none !important}
     section.card[data-view].active{display:block !important}
-    #chatCard.active{display:flex !important;min-height:0}
-    .messages{max-height:none;height:46vh}
+    #chatCard.active{display:flex !important;min-height:0;height:calc(100dvh - 178px)}
+    #chatCard.active .chat-box{flex:1;min-height:0}
+    #chatCard.active .messages{height:auto;max-height:none;flex:1}
+    .messages{max-height:none}
     .logo h1{font-size:18px}
     .zone{min-height:112px}
   }
