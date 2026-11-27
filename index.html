@@ -284,10 +284,10 @@
     nav.tabs{display:flex}
     main.grid{grid-template-columns:1fr;margin-top:12px}
     main.grid .col{display:contents}
-    section.card[data-view]{display:none}
-    section.card[data-view].active{display:block}
+    section.card[data-view]{display:none !important}
+    section.card[data-view].active{display:block !important}
+    #chatCard.active{display:flex !important;min-height:0}
     .messages{max-height:none;height:46vh}
-    #chatCard{min-height:0}
     .logo h1{font-size:18px}
     .zone{min-height:112px}
   }
@@ -318,7 +318,7 @@
   <main class="grid">
     <div class="col">
       <!-- OFFICE MAP -->
-      <section class="card" data-view="office">
+      <section class="card active" data-view="office">
         <div class="card-head">
           <h2>🏠 스튜디오 오피스</h2>
           <span class="sub">피클을 눌러 위치·상태 바꾸기</span>
@@ -939,6 +939,7 @@ $$('#tabs button').forEach((b) => {
     $$('#tabs button').forEach((x) => x.classList.remove('active'));
     b.classList.add('active');
     $$('section.card[data-view]').forEach((s) => s.classList.toggle('active', s.dataset.view === b.dataset.tab));
+    if (window.innerWidth <= 980) window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 
