@@ -505,14 +505,19 @@ const backend = {
 
   listen(onOp) {
     if (CONFIG.backend === 'firebase' && CONFIG.firebaseUrl) {
-      // RTDB REST 스트리밍 (put = 전체 스냅숏, patch = 부분 갱신)
+      // RTDB REST 스트리밍 (put = 스냅숏/단일 경로, patch = 부분 갱신)
       const handle = (e) => {
         try {
           const d = JSON.parse(e.data);
-          const v = d && d.data;
-          if (v && typeof v === 'object') {
-            Object.values(v).forEach((op) => { if (op && op.id) onOp(op); });
-          }
+          if (!d || !d.data) return;
+          const v = d.data;
+          const collect = (obj) => {
+            if (!obj || typeof obj !== 'object') return;
+            const one = (x) => { if (x && x.id && x.t) onOp(x); };
+            if (v.t && v.id) one(v);
+            else Object.values(obj).forEach(one);
+          };
+          collect(v);
         } catch (err) {}
       };
       const es = new EventSource(CONFIG.firebaseUrl + '/ops.json');
@@ -546,7 +551,7 @@ function setConnected(v) {
 
 /* ---------- 상태 적용 ---------- */
 function applyOp(op) {
-  if (!op || !op.id || state.applied.has(op.id)) return false;
+  if (!op || !op.id || !op.t || state.applied.has(op.id)) return false;
   state.applied.add(op.id);
   switch (op.t) {
     case 'chat':
@@ -952,7 +957,6 @@ async function boot() {
 
   // 2) 실시간 구독
   backend.listen((op) => { if (applyOp(op)) renderAll(); });
-  setConnected(true);
 
   // 3) 처음 열린 공간이면 씨앗 데이터 심기 (1회)
   const seeded = localStorage.getItem(CONFIG.storeKey + '_seeded');
