@@ -293,6 +293,12 @@
     .logo h1{font-size:18px}
     .zone{min-height:112px}
   }
+  @media (min-width:981px){
+    #chatCard{height:calc(100vh - 140px);min-height:520px;position:sticky;top:16px}
+    #chatCard .chat-box{flex:1;min-height:0;height:auto}
+    #chatCard .messages{flex:1;max-height:none}
+  }
+
   @media (max-width:520px){
     .map{grid-template-columns:1fr}
     .zone.treatment{grid-column:auto;min-height:104px}
